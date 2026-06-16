@@ -21,6 +21,27 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
   return response.json() as Promise<T>;
 };
 
+type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+
+type QueryParams = Record<string, string | number | boolean | null | undefined>;
+
+const makeRequest = async <T>(
+  endpoint: string,
+  method: HttpMethod = "GET",
+  queryParams: QueryParams = {},
+  body: Object = null,
+): Promise<T> => {
+  const url = new URL(`${BASE_URL}${endpoint}`);
+  url.searchParams.append("apikey", API_KEY);
+  Object.entries(queryParams).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      url.searchParams.append(key, String(value));
+    }
+  });
+
+  return;
+};
+
 // export function currencyService() {
 //   fetch(`/rates/latest?apikey=${apiKey}&symbols=PKR,GBP,EUR,USD`)
 //     .then((d) => d.json())
