@@ -61,8 +61,9 @@ const makeRequest = async <T>(
   }
 };
 
-// export function currencyService() {
-//   fetch(`/rates/latest?apikey=${apiKey}&symbols=PKR,GBP,EUR,USD`)
-//     .then((d) => d.json())
-//     .then((d) => console.log(d));
-// }
+export const CurrencyFacade = {
+  getLatestRates: async (symbols = ["PKR", "GBP", "EUR", "USD"]) => {
+    const symbolsString = symbols.join(",");
+    return makeRequest("/rates/latest", "GET", { symbols: symbolsString });
+  },
+};
