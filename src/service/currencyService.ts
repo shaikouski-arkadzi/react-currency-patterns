@@ -30,6 +30,7 @@ const makeRequest = async <T>(
   method: HttpMethod = "GET",
   queryParams: QueryParams = {},
   body: Object = null,
+  contentType: string = "application/json",
 ): Promise<T> => {
   const url = new URL(`${BASE_URL}${endpoint}`);
   url.searchParams.append("apikey", API_KEY);
@@ -39,7 +40,25 @@ const makeRequest = async <T>(
     }
   });
 
-  return;
+  const options: RequestInit = {
+    method,
+    headers: {
+      Accept: "application/json",
+    },
+  };
+
+  if (body) {
+    options.headers["Content-Type"] = contentType;
+    options.body = JSON.stringify(body);
+  }
+
+  try {
+    const response = await fetch(url.toString(), options);
+    return await handleResponse(response);
+  } catch (error) {
+    console.error(`[API ERROR] ${method} ${endpoint}: ${error.message}`);
+    throw error;
+  }
 };
 
 // export function currencyService() {
