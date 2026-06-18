@@ -25,7 +25,7 @@ type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 type QueryParams = Record<string, string | number | boolean | null | undefined>;
 
-const makeRequest = async <T>(
+export const makeRequest = async <T>(
   endpoint: string,
   method: HttpMethod = "GET",
   queryParams: QueryParams = {},
@@ -59,11 +59,4 @@ const makeRequest = async <T>(
     console.error(`[API ERROR] ${method} ${endpoint}: ${error.message}`);
     throw error;
   }
-};
-
-export const CurrencyFacade = {
-  getLatestRates: async (symbols = ["PKR", "GBP", "EUR", "USD"]) => {
-    const symbolsString = symbols.join(",");
-    return makeRequest("/rates/latest", "GET", { symbols: symbolsString });
-  },
 };

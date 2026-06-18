@@ -1,5 +1,4 @@
-import { CurrencyFacade } from "./service/currency/currencyService";
-
+import { CurrencyFacade } from "./service/currency/facade";
 import "./style.css";
 
 const requestButton = document.querySelector("#request");
