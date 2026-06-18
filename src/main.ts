@@ -1,4 +1,4 @@
-import { CurrencyFacade } from "./service/currencyService";
+import { CurrencyFacade } from "./service/currency/currencyService";
 
 import "./style.css";
 
