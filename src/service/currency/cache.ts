@@ -1,5 +1,3 @@
-type AsyncMethod = (...args: any[]) => Promise<any>;
-
 interface CacheEntry<T = unknown> {
   data: T;
   timestamp: number;
