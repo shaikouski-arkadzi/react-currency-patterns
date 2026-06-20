@@ -1,4 +1,4 @@
-const API_KEY = import.meta.env.VITE_API_KEY?.trim();
+// const API_KEY = import.meta.env.VITE_API_KEY?.trim();
 
 const BASE_URL = "https://api.currencyfreaks.com/v2.0";
 
@@ -33,7 +33,7 @@ export const makeRequest = async <T>(
   contentType: string = "application/json",
 ): Promise<T> => {
   const url = new URL(`${BASE_URL}${endpoint}`);
-  url.searchParams.append("apikey", API_KEY);
+  // url.searchParams.append("apikey", API_KEY);
   Object.entries(queryParams).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
       url.searchParams.append(key, String(value));
