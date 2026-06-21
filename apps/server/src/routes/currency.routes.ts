@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { error } from "node:console";
 
 const router = Router();
 
@@ -26,5 +27,34 @@ router.all(/.*/, async (req: Request, res: Response): Promise<void> => {
         targetUrl.searchParams.append(key, value.join(","));
       }
     }
-  } catch {}
+
+    const fetchOptions: RequestInit = {
+      method: req.method,
+      headers: {
+        Accept: "application/json",
+        ...(req.headers["content-type"] && {
+          "Content-Type": req.headers["content-type"],
+        }),
+      },
+      ...(req.method !== "GET" && req.method !== "HEAD" && req.body
+        ? { body: JSON.stringify(req.body) }
+        : {}),
+    };
+
+    const response = await fetch(targetUrl.toString(), fetchOptions);
+
+    const data = await response.json();
+
+    res.status(response.status).json(data);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("[Currency API Router Error]", error.message);
+      res.status(500).json({
+        error: "Internal gateway error",
+        message: error.message,
+      });
+    }
+  }
 });
+
+export const CurrencyRouter = router;
